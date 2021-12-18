@@ -1,5 +1,7 @@
 # crud-typescripto
-## antes de rodar inserir arquivo .env o seguinte parametro URL_DATABASE=XXXX e salvar ele
+ antes de rodar inserir arquivo .env o seguinte parametro URL_DATABASE=XXXX e salvar ele para poder iniciar os teste
+
+## End Points
   |Rotas       | Method  | Body                                                 |  Header  | Descrição|
   -------------| --------| -----------------------------------------------------| -------- |--------- |
  | /user       | Get     | =====                                                |  =====   | Retorna |todos os usuarios|
