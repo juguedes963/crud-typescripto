@@ -34,7 +34,7 @@ class UserController {
                 throw 'sem dados para fazer o cadastro'
 
             }
-            
+
             const isVerifyUser = await User.find({
                 email
             })
@@ -42,7 +42,7 @@ class UserController {
             const isVerifyPhone = await User.find({
                 phone
             })
-            
+
             if (isVerifyUser.length > 0 || isVerifyPhone.length > 0) {
 
                 throw 'ja contem usuario cadastrado com esse email ou esse telefone'
@@ -122,23 +122,65 @@ class UserController {
 
         }
     }
-    public async UpdateInfoUser(request: Request, response: Response): Promise<Response> {
+    public async updateInfoUserEmail(request: Request, response: Response): Promise<Response>{
         try {
             const { email, phone } = request.body
             const { id } = request.headers
+
+
             if (!email && !phone)
                 throw "nao contem nenhuma informacao no corpo da request para atualizar"
 
-            if (!email)
-                // const user = await User.find({
-                //     email
-                // })
-                if (!phone)
+            const user_verificated = await User.find({
+                phone
+            })
 
-                    return response.status(200).json({
-                        success: true,
-                        data: []
-                    })
+            if (user_verificated[0]._id != id) {
+                throw "id de usuario e id no cabecalho da request diferentes nao foi possivel excluir"
+            }
+
+            const user_update = await User.findOneAndUpdate(
+                { _id: id }, 
+                { email },
+                 { new: true })
+
+            return response.status(200).json({
+                success: true,
+                data: user_update
+            })
+        } catch (error) {
+            return response.status(403).json({
+                success: false,
+                error
+            })
+        }
+    }
+    public async updateInfoUserPhone(request: Request, response: Response): Promise<Response> {
+        try {
+            const { email, phone } = request.body
+            const { id } = request.headers
+
+
+            if (!email && !phone)
+                throw "nao contem nenhuma informacao no corpo da request para atualizar"
+
+            const user_verificated = await User.find({
+                email
+            })
+
+            if (user_verificated[0]._id != id) {
+                throw "id de usuario e id no cabecalho da request diferentes nao foi possivel excluir"
+            }
+
+            const user_update = await User.findOneAndUpdate(
+                { _id: id }, 
+                { phone },
+                 { new: true })
+
+            return response.status(200).json({
+                success: true,
+                data: user_update
+            })
         } catch (error) {
             return response.status(403).json({
                 success: false,

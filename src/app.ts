@@ -1,5 +1,8 @@
 import express from 'express'
 import cors from 'cors'
+import dotenv from 'dotenv'
+
+
 import mongoose from 'mongoose'
 import routes from './routes'
 
@@ -8,7 +11,7 @@ class Server {
 
     constructor() {
         this.express = express()
-
+        dotenv.config()
         this.database()
         this.middlewares()
         this.routes()
@@ -19,7 +22,7 @@ class Server {
         this.express.use(cors())
     }
     private database(): void {
-        mongoose.connect('mongodb+srv://julio:cavalo01@cluster0.d9dv5.mongodb.net/grm')
+        mongoose.connect(`${process.env.URL_DATABASE}`)
         console.log(mongoose.modelNames())
     }
     private routes(): void {

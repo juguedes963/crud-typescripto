@@ -63,6 +63,77 @@ class UserAddressController {
 
 
     }
-    
+    public async updateAddress(request: Request, response: Response): Promise<Response> {
+        try {
+            const { id } = request.headers
+            const {
+                newstreet,
+                newcity,
+                newstate,
+                newzipcode,
+                newcountry,
+            } = request.body
+
+            const address = await Address.find({
+                _id: id
+            })
+
+            if (address[0]._id != id) {
+                throw "id de usuario e id no cabecalho da request diferentes nao foi possivel excluir"
+            }
+
+            if (newstreet) {
+                await User.findOneAndUpdate(
+                    { _id: id },
+                    { street: newstreet },
+                    { new: true })
+
+            }
+
+            if (newcity) {
+                await User.findOneAndUpdate(
+                    { _id: id },
+                    { city: newcity },
+                    { new: true })
+
+            }
+            if (newstate) {
+                await User.findOneAndUpdate(
+                    { _id: id },
+                    { state: newstate },
+                    { new: true })
+
+            }
+            if (newzipcode) {
+                await User.findOneAndUpdate(
+                    { _id: id },
+                    { zipcode: newzipcode },
+                    { new: true })
+
+            }
+            if (newcountry) {
+                await User.findOneAndUpdate(
+                    { _id: id },
+                    { country: newcountry },
+                    { new: true })
+            }
+
+            const address_update = await Address.find({
+                _id: id
+            }).populate({
+                path: "user"
+            })
+            
+            return response.status(200).json({
+                success: true,
+                data: address_update
+            })
+        } catch (error) {
+            return response.status(403).json({
+                success: false,
+                error
+            })
+        }
+    }
 }
 export default new UserAddressController()
