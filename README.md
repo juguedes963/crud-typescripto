@@ -1,4 +1,5 @@
 # crud-typescripto
+## antes de rodar inserir arquivo .env o seguinte parametro URL_DATABASE=XXXX e salvar ele
   |Rotas       | Method  | Body                                                 |  Header  | Descrição|
   -------------| --------| -----------------------------------------------------| -------- |--------- |
  | /user       | Get     | =====                                                |  =====   | Retorna |todos os usuarios|
